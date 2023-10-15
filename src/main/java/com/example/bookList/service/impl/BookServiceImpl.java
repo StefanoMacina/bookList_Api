@@ -22,6 +22,16 @@ public class BookServiceImpl implements BookService {
         this.bookRepository = bookRepository;
     }
 
+
+    @Override
+    public List<BookDTO> getAll(){
+        List<Book> books = bookRepository.findAll();
+        List<BookDTO> bookDTOs = books.stream()
+                .map(book -> bookMapper.toDto(book))
+                .collect(Collectors.toList());
+        return bookDTOs;
+    }
+
     @Override
     public List<BookDTO> getAllBooksForReader(Long readerId) {
         List<Book> books = bookRepository.findByReaderId(readerId);
@@ -31,5 +41,10 @@ public class BookServiceImpl implements BookService {
         return bookDTOs;
     }
 
+    @Override
+    public Book create(Book book){
+        Book bookEntity = bookMapper.toEntity(book);
+        return bookRepository.save(bookEntity);
+    }
 
 }

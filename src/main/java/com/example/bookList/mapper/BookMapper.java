@@ -7,7 +7,6 @@ import com.example.bookList.model.Reader;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class BookMapper {
@@ -30,7 +29,7 @@ public class BookMapper {
         return bookDTO;
     }
 
-    public Book toEntity(BookDTO bookDTO) {
+    public Book toEntity(Book bookDTO) {
         Book book = new Book();
         book.setIsbn(bookDTO.getIsbn());
         book.setTitle(bookDTO.getTitle());
