@@ -1,6 +1,8 @@
 package com.example.bookList.service.impl;
 
 import com.example.bookList.dto.BookDTO;
+import com.example.bookList.dto.BookWithoutReaderDto;
+import com.example.bookList.dto.GetAllBooksResponseDto;
 import com.example.bookList.mapper.BookMapper;
 import com.example.bookList.model.Book;
 import com.example.bookList.repository.Bookrepository;
@@ -26,14 +28,21 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public List<BookDTO> getAll(){
+    public List<BookWithoutReaderDto> getAll() {
         List<Book> books = bookRepository.findAll();
-        List<BookDTO> bookDTOs = books.stream()
-                .map(book -> bookMapper.toDto(book))
+        List<BookWithoutReaderDto> bookWithoutReaderDtos = books.stream()
+                .map(book -> {
+                    BookWithoutReaderDto dto = new BookWithoutReaderDto();
+                    dto.setIsbn(book.getIsbn());
+                    dto.setTitle(book.getTitle());
+                    dto.setAuthor(book.getAuthor());
+                    dto.setDescription(book.getDescription());
+                    return dto;
+                })
                 .collect(Collectors.toList());
-        return bookDTOs;
-    }
 
+        return bookWithoutReaderDtos;
+    }
     @Override
     public List<BookDTO> getAllBooksForReader(Long readerId) {
         List<Book> books = bookRepository.findByReaderId(readerId);

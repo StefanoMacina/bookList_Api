@@ -1,6 +1,8 @@
 package com.example.bookList.controller;
 
 import com.example.bookList.dto.BookDTO;
+import com.example.bookList.dto.BookWithoutReaderDto;
+import com.example.bookList.dto.GetAllBooksResponseDto;
 import com.example.bookList.model.Book;
 import com.example.bookList.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,9 @@ public class BookController {
 
 
     @GetMapping("/all")
-    public List<BookDTO> getAll(){
-        List<BookDTO> bookDTOS = bookService.getAll();
-        return bookDTOS;
+    public List<BookWithoutReaderDto> getAll(){
+        return bookService.getAll();
+
     }
 
     @GetMapping("/{readerId}/all")

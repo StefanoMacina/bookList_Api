@@ -1,6 +1,8 @@
 package com.example.bookList.service;
 
 import com.example.bookList.dto.BookDTO;
+import com.example.bookList.dto.BookWithoutReaderDto;
+import com.example.bookList.dto.GetAllBooksResponseDto;
 import com.example.bookList.model.Book;
 
 import java.util.*;
@@ -11,7 +13,7 @@ public interface BookService {
 
     BookDTO create(BookDTO book);
 
-    List<BookDTO> getAll();
+    List<BookWithoutReaderDto> getAll();
 
     BookDTO update(Long id, BookDTO updatedBook);
 
