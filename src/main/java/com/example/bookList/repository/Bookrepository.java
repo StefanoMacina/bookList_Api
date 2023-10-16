@@ -9,4 +9,6 @@ import java.util.*;
 public interface Bookrepository extends JpaRepository<Book, Long> {
 
     List<Book> findByReaderId(Long readerId);
+    List<Book> findByTitleContainingOrDescriptionContaining(String title, String description);
+
 }

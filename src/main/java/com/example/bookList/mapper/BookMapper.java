@@ -8,6 +8,8 @@ import com.example.bookList.model.Reader;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BookMapper {
@@ -40,13 +42,23 @@ public class BookMapper {
         return book;
     }
 
-        public BookWithoutReaderDto toBookWithoutReaderDto(Book book) {
-            BookWithoutReaderDto dto = new BookWithoutReaderDto();
-            dto.setIsbn(book.getIsbn());
-            dto.setTitle(book.getTitle());
-            dto.setAuthor(book.getAuthor());
-            dto.setDescription(book.getDescription());
-            return dto;
-        }
+
+
+    public List<BookWithoutReaderDto> toBookWithoutReaderDtos(List<Book> books) {
+        return books.stream()
+                .map(this::toBookWithoutReaderDto)
+                .collect(Collectors.toList());
     }
+
+    public BookWithoutReaderDto toBookWithoutReaderDto(Book book) {
+        BookWithoutReaderDto dto = new BookWithoutReaderDto();
+        dto.setIsbn(book.getIsbn());
+        dto.setTitle(book.getTitle());
+        dto.setAuthor(book.getAuthor());
+        dto.setDescription(book.getDescription());
+        return dto;
+    }
+
+
+}
 

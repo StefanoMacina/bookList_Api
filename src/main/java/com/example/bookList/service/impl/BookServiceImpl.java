@@ -68,13 +68,8 @@ public class BookServiceImpl implements BookService {
     public BookDTO update(long id, BookDTO updatedBook) {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro non trovato con l'ID specificato"));
-
-        existingBook.setTitle(updatedBook.getTitle());
-        existingBook.setAuthor(updatedBook.getAuthor());
-        existingBook.setDescription(updatedBook.getDescription());
-        existingBook.setIsbn(updatedBook.getIsbn());
-
-        existingBook = bookRepository.save(existingBook);
+        bookMapper.toDto(existingBook);
+        bookRepository.save(existingBook);
 
         return bookMapper.toDto(existingBook);
     }
@@ -87,5 +82,13 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public List<BookWithoutReaderDto> searchBooksByTitleOrDescription(String searchTerm, String searchDescription) {
+        List<Book> books = bookRepository.findByTitleContainingOrDescriptionContaining(searchTerm, searchDescription);
+        return bookMapper.toBookWithoutReaderDtos(books);
+    }
+
+
 
 }

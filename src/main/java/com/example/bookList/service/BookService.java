@@ -17,4 +17,8 @@ public interface BookService {
     BookDTO update(long id, BookDTO updatedBook);
 
     boolean deleteById(long id);
+
+    List<BookWithoutReaderDto> searchBooksByTitleOrDescription(String searchTerm, String searchDescription);
+
+
 }

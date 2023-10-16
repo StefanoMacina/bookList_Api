@@ -52,8 +52,14 @@ public class BookController {
         bookService.deleteById(bookId);
     }
 
-
-
+    // http://localhost:8080/api/v1/readinglist/search?searchTitle=titolo&searchDescription=descrizione
+    @GetMapping("/search")
+    public List<BookWithoutReaderDto> searchBooks(
+            @RequestParam(name = "searchTitle") String titleParam,
+            @RequestParam(name = "searchDescription") String descritionParam
+            ){
+        return bookService.searchBooksByTitleOrDescription(titleParam,descritionParam);
+    }
 }
 
 
