@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter @Setter
 public class BookWithoutReaderDto {
+
     private String isbn;
     private String title;
     private String author;
     private String description;
-
 
 }

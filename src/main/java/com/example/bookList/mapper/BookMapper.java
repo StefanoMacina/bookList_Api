@@ -1,6 +1,7 @@
 package com.example.bookList.mapper;
 
 import com.example.bookList.dto.BookDTO;
+import com.example.bookList.dto.BookWithoutReaderDto;
 import com.example.bookList.dto.ReaderDTO;
 import com.example.bookList.model.Book;
 import com.example.bookList.model.Reader;
@@ -38,5 +39,14 @@ public class BookMapper {
 
         return book;
     }
-}
+
+        public BookWithoutReaderDto toBookWithoutReaderDto(Book book) {
+            BookWithoutReaderDto dto = new BookWithoutReaderDto();
+            dto.setIsbn(book.getIsbn());
+            dto.setTitle(book.getTitle());
+            dto.setAuthor(book.getAuthor());
+            dto.setDescription(book.getDescription());
+            return dto;
+        }
+    }
 

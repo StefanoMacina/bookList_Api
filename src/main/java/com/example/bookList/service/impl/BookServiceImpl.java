@@ -2,7 +2,7 @@ package com.example.bookList.service.impl;
 
 import com.example.bookList.dto.BookDTO;
 import com.example.bookList.dto.BookWithoutReaderDto;
-import com.example.bookList.dto.GetAllBooksResponseDto;
+import com.example.bookList.dto.BooksForReaderResponseDto;
 import com.example.bookList.mapper.BookMapper;
 import com.example.bookList.model.Book;
 import com.example.bookList.repository.Bookrepository;
@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public List<BookWithoutReaderDto> getAll() {
+    public List<BookWithoutReaderDto> getAllBooks() {
         List<Book> books = bookRepository.findAll();
         List<BookWithoutReaderDto> bookWithoutReaderDtos = books.stream()
                 .map(book -> {
@@ -43,13 +43,18 @@ public class BookServiceImpl implements BookService {
 
         return bookWithoutReaderDtos;
     }
+
     @Override
-    public List<BookDTO> getAllBooksForReader(Long readerId) {
+    public BooksForReaderResponseDto getAllBooksForReader(long readerId) {
         List<Book> books = bookRepository.findByReaderId(readerId);
-        List<BookDTO> bookDTOs = books.stream()
-                .map(book -> bookMapper.toDto(book))
+        List<BookWithoutReaderDto> bookWithoutReaderDtos = books.stream()
+                .map(book -> bookMapper.toBookWithoutReaderDto(book))
                 .collect(Collectors.toList());
-        return bookDTOs;
+
+        BooksForReaderResponseDto responseDto = new BooksForReaderResponseDto();
+        responseDto.setBooks(bookWithoutReaderDtos);
+
+        return responseDto;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO update(Long id, BookDTO updatedBook) {
+    public BookDTO update(long id, BookDTO updatedBook) {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro non trovato con l'ID specificato"));
 
@@ -82,4 +87,5 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
         return true;
     }
+
 }
