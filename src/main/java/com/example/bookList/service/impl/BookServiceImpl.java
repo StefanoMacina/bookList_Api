@@ -65,4 +65,12 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(existingBook);
     }
 
+    @Override
+    public boolean deleteById(long id){
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isEmpty())
+            return false;
+        bookRepository.deleteById(id);
+        return true;
+    }
 }

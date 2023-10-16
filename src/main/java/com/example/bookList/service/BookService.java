@@ -14,4 +14,6 @@ public interface BookService {
     List<BookDTO> getAll();
 
     BookDTO update(Long id, BookDTO updatedBook);
+
+    boolean deleteById(long id);
 }
