@@ -17,10 +17,6 @@ public class BookController {
     @Autowired
     private  BookService bookService;
 
-    @PostMapping
-    public void addBook(@RequestBody Book book){
-        bookService.create(book);
-    }
 
     @GetMapping("/all")
     public List<BookDTO> getAll(){
@@ -29,12 +25,30 @@ public class BookController {
     }
 
     @GetMapping("/{readerId}/all")
-    public List<BookDTO> getAllBooksForReader(@PathVariable Long readerId) {
+    public List<BookDTO> getAllBooksForReader(@PathVariable long readerId) {
         List<BookDTO> bookDTOS = bookService.getAllBooksForReader(readerId);
         if (bookDTOS.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nessun libro trovato per l'utente specificato");
         }
         return bookDTOS;
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDTO create (@RequestBody BookDTO book){
+        return bookService.create(book);
+    }
+
+    @PutMapping("/{bookId}")
+    public BookDTO update(@PathVariable long bookId,
+                              @RequestBody BookDTO updateBook){
+
+        BookDTO updatedBookDTO = bookService.update(bookId, updateBook);
+        return updatedBookDTO;
+    }
+
+
+
 }
+
 

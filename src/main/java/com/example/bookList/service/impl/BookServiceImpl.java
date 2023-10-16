@@ -6,7 +6,9 @@ import com.example.bookList.model.Book;
 import com.example.bookList.repository.Bookrepository;
 import com.example.bookList.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,9 +44,25 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book create(Book book){
+    public BookDTO create(BookDTO book){
         Book bookEntity = bookMapper.toEntity(book);
-        return bookRepository.save(bookEntity);
+        Book savedBook = bookRepository.save(bookEntity);
+        return bookMapper.toDto(savedBook);
+    }
+
+    @Override
+    public BookDTO update(Long id, BookDTO updatedBook) {
+        Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro non trovato con l'ID specificato"));
+
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setDescription(updatedBook.getDescription());
+        existingBook.setIsbn(updatedBook.getIsbn());
+
+        existingBook = bookRepository.save(existingBook);
+
+        return bookMapper.toDto(existingBook);
     }
 
 }

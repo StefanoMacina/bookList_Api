@@ -29,7 +29,7 @@ public class BookMapper {
         return bookDTO;
     }
 
-    public Book toEntity(Book bookDTO) {
+    public Book toEntity(BookDTO bookDTO) {
         Book book = new Book();
         book.setIsbn(bookDTO.getIsbn());
         book.setTitle(bookDTO.getTitle());

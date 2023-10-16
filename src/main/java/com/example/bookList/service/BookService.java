@@ -9,7 +9,9 @@ public interface BookService {
 
     List<BookDTO> getAllBooksForReader(Long readerId);
 
-    Book create(Book book);
+    BookDTO create(BookDTO book);
 
     List<BookDTO> getAll();
+
+    BookDTO update(Long id, BookDTO updatedBook);
 }
