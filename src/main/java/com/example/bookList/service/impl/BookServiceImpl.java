@@ -88,7 +88,4 @@ public class BookServiceImpl implements BookService {
         List<Book> books = bookRepository.findByTitleContainingOrDescriptionContaining(searchTerm, searchDescription);
         return bookMapper.toBookWithoutReaderDtos(books);
     }
-
-
-
 }
